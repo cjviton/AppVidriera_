@@ -1,53 +1,63 @@
 import React from 'react';
-import { StyleSheet, View, Text, TextInput, TouchableOpacity } from 'react-native';
+import { StyleSheet, View, Text, TextInput, TouchableOpacity, ImageBackground } from 'react-native';
 
 export default function Register({ navigation }) {
   return (
-    <View style={styles.container}>
-      <Text style={styles.title}>Crear nuevo usuario</Text>
+    <ImageBackground
+      source={require('../assets/logoMovil.png')} // 👈 mismo fondo que Login
+      style={styles.background}
+      resizeMode="cover"
+    >
+      <View style={styles.overlay}>
+        <Text style={styles.title}>Crear nuevo usuario</Text>
 
-      <TextInput 
-        style={styles.input} 
-        placeholder="Usuario" 
-        placeholderTextColor="#666"
-      />
-      <TextInput 
-        style={styles.input} 
-        placeholder="Correo electrónico" 
-        placeholderTextColor="#666"
-        keyboardType="email-address"
-      />
-      <TextInput 
-        style={styles.input} 
-        placeholder="Contraseña" 
-        placeholderTextColor="#666"
-        secureTextEntry
-      />
-      <TextInput 
-        style={styles.input} 
-        placeholder="Confirmar contraseña" 
-        placeholderTextColor="#666"
-        secureTextEntry
-      />
+        <TextInput 
+          style={styles.input} 
+          placeholder="Usuario" 
+          placeholderTextColor="#666"
+        />
+        <TextInput 
+          style={styles.input} 
+          placeholder="Correo electrónico" 
+          placeholderTextColor="#666"
+          keyboardType="email-address"
+        />
+        <TextInput 
+          style={styles.input} 
+          placeholder="Contraseña" 
+          placeholderTextColor="#666"
+          secureTextEntry
+        />
+        <TextInput 
+          style={styles.input} 
+          placeholder="Confirmar contraseña" 
+          placeholderTextColor="#666"
+          secureTextEntry
+        />
 
-      <TouchableOpacity 
-        style={styles.buttonRegister} 
-        onPress={() => navigation.replace("Home")}
-      >
-        <Text style={styles.buttonText}>Registrarme</Text>
-      </TouchableOpacity>
+        <TouchableOpacity 
+          style={styles.buttonRegister} 
+          onPress={() => navigation.replace("Home")}
+        >
+          <Text style={styles.buttonText}>Registrarme</Text>
+        </TouchableOpacity>
 
-      <TouchableOpacity onPress={() => navigation.replace("Login")}>
-        <Text style={styles.backText}>Volver al Login</Text>
-      </TouchableOpacity>
-    </View>
+        <TouchableOpacity onPress={() => navigation.replace("Login")}>
+          <Text style={styles.backText}>Volver al Login</Text>
+        </TouchableOpacity>
+      </View>
+    </ImageBackground>
   );
 }
 
 const styles = StyleSheet.create({
-  container: {
+  background: {
     flex: 1,
-    backgroundColor: '#FFFFFF',
+    justifyContent: 'center',
+  },
+  overlay: {
+    flex: 1,
+    backgroundColor: 'rgba(255, 255, 255, 0.8)', // 👈 capa translúcida sobre el logo
     justifyContent: 'center',
     alignItems: 'center',
     padding: 30,

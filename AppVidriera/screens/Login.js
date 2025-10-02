@@ -11,30 +11,30 @@ export default function Login({ navigation }) {
       <View style={styles.overlay}>
         <Text style={styles.title}>Iniciar sesión</Text>
 
-        <TextInput 
-          style={styles.input} 
-          placeholder="Usuario" 
+        <TextInput
+          style={styles.input}
+          placeholder="Usuario"
           placeholderTextColor="#666"
         />
-        <TextInput 
-          style={styles.input} 
-          placeholder="Contraseña" 
+        <TextInput
+          style={styles.input}
+          placeholder="Contraseña"
           placeholderTextColor="#666"
-          secureTextEntry 
+          secureTextEntry
         />
 
         {/* Botón de login */}
-        <TouchableOpacity 
-          style={styles.buttonLogin} 
+        <TouchableOpacity
+          style={styles.buttonLogin}
           onPress={() => navigation.replace("Home")}
         >
           <Text style={styles.buttonText}>Entrar</Text>
         </TouchableOpacity>
 
         {/* Botón para crear cuenta */}
-        <TouchableOpacity 
-          style={styles.buttonRegister} 
-          onPress={() => alert('Pantalla de registro en construcción 🚧')}
+        <TouchableOpacity
+          style={styles.buttonRegister}
+          onPress={() => navigation.navigate("Register")}
         >
           <Text style={styles.buttonRegisterText}>Crear nuevo usuario</Text>
         </TouchableOpacity>
@@ -50,7 +50,7 @@ const styles = StyleSheet.create({
   },
   overlay: {
     flex: 1,
-    backgroundColor: 'rgba(255, 255, 255, 0.8)', 
+    backgroundColor: 'rgba(255, 255, 255, 0.8)',
     justifyContent: 'center',
     alignItems: 'center',
     padding: 30,
