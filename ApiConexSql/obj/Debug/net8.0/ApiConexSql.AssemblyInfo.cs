@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("ApiConexSql")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+42d7a3eb64738c7a9a9316a8c2a3448ad343378f")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+ef47084ac7fff575ba0d9a84fd60cef773d72be9")]
 [assembly: System.Reflection.AssemblyProductAttribute("ApiConexSql")]
 [assembly: System.Reflection.AssemblyTitleAttribute("ApiConexSql")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

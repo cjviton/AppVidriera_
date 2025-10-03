@@ -1,10 +1,32 @@
-import React from 'react';
-import { StyleSheet, View, Text, TextInput, TouchableOpacity, ImageBackground } from 'react-native';
+import React, { useState } from "react";
+import { StyleSheet, View, Text, TextInput, TouchableOpacity, ImageBackground, Alert } from "react-native";
 
 export default function Login({ navigation }) {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+
+  const handleLogin = () => {
+    fetch("http://10.0.2.2:5297/usuarios") // 👈 en emulador Android
+    // fetch("http://192.168.1.50:5297/usuarios") // 👈 si usas móvil físico en red local
+      .then(res => res.json())
+      .then(data => {
+        const user = data.find(u => u.email === email && u.passwordHash === password);
+        if (user) {
+          Alert.alert("Bienvenido", `Hola ${user.nombre}`);
+          navigation.replace("Home");
+        } else {
+          Alert.alert("Error", "Email o contraseña incorrectos");
+        }
+      })
+      .catch(err => {
+        console.error(err);
+        Alert.alert("Error", "No se pudo conectar al servidor");
+      });
+  };
+
   return (
     <ImageBackground
-      source={require('../assets/logoMovil.png')} // 👈 logo como fondo
+      source={require('../assets/logoMovil.png')}
       style={styles.background}
       resizeMode="cover"
     >
@@ -13,30 +35,29 @@ export default function Login({ navigation }) {
 
         <TextInput
           style={styles.input}
-          placeholder="Usuario"
+          placeholder="Correo electrónico"
           placeholderTextColor="#666"
+          keyboardType="default"   // 👈 para que funcione bien con @ en emulador
+          autoCapitalize="none"
+          autoCorrect={false}
+          value={email}
+          onChangeText={setEmail}
         />
         <TextInput
           style={styles.input}
           placeholder="Contraseña"
           placeholderTextColor="#666"
           secureTextEntry
+          value={password}
+          onChangeText={setPassword}
         />
 
-        {/* Botón de login */}
-        <TouchableOpacity
-          style={styles.buttonLogin}
-          onPress={() => navigation.replace("Home")}
-        >
+        <TouchableOpacity style={styles.buttonLogin} onPress={handleLogin}>
           <Text style={styles.buttonText}>Entrar</Text>
         </TouchableOpacity>
 
-        {/* Botón para crear cuenta */}
-        <TouchableOpacity
-          style={styles.buttonRegister}
-          onPress={() => navigation.navigate("Register")}
-        >
-          <Text style={styles.buttonRegisterText}>Crear nuevo usuario</Text>
+        <TouchableOpacity onPress={() => navigation.replace("Register")}>
+          <Text style={styles.registerText}>¿No tienes cuenta? Regístrate</Text>
         </TouchableOpacity>
       </View>
     </ImageBackground>
@@ -46,60 +67,52 @@ export default function Login({ navigation }) {
 const styles = StyleSheet.create({
   background: {
     flex: 1,
-    justifyContent: 'center',
+    justifyContent: "center",
   },
   overlay: {
     flex: 1,
-    backgroundColor: 'rgba(255, 255, 255, 0.8)',
-    justifyContent: 'center',
-    alignItems: 'center',
+    backgroundColor: "rgba(255, 255, 255, 0.8)",
+    justifyContent: "center",
+    alignItems: "center",
     padding: 30,
   },
   title: {
     fontSize: 26,
-    fontWeight: 'bold',
-    color: '#3B6FB6',
+    fontWeight: "bold",
+    color: "#3B6FB6",
     marginBottom: 30,
   },
   input: {
-    width: '100%',
-    backgroundColor: '#fff',
+    width: "100%",
+    backgroundColor: "#fff",
     padding: 12,
     borderRadius: 8,
     marginBottom: 15,
     fontSize: 16,
     borderWidth: 1,
-    borderColor: '#ccc',
+    borderColor: "#ccc",
   },
   buttonLogin: {
-    backgroundColor: '#3B6FB6',
+    backgroundColor: "#3B6FB6",
     paddingVertical: 14,
     paddingHorizontal: 50,
     borderRadius: 10,
     marginTop: 10,
     marginBottom: 15,
     elevation: 3,
-    shadowColor: '#000',
+    shadowColor: "#000",
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.3,
     shadowRadius: 3,
   },
   buttonText: {
-    color: '#fff',
+    color: "#fff",
     fontSize: 18,
-    fontWeight: 'bold',
+    fontWeight: "bold",
   },
-  buttonRegister: {
-    paddingVertical: 12,
-    paddingHorizontal: 40,
-    borderRadius: 10,
-    borderWidth: 1,
-    borderColor: '#3B6FB6',
-    backgroundColor: '#f0f0f0',
-  },
-  buttonRegisterText: {
-    color: '#3B6FB6',
+  registerText: {
+    marginTop: 10,
     fontSize: 16,
-    fontWeight: '600',
+    color: "#3B6FB6",
   },
 });
