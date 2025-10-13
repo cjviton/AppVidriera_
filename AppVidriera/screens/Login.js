@@ -13,7 +13,7 @@ export default function Login({ navigation }) {
         const user = data.find(u => u.email === email && u.passwordHash === password);
         if (user) {
           Alert.alert("Bienvenido", `Hola ${user.nombre}`);
-          navigation.replace("Home");
+          navigation.replace("Home", { user });
         } else {
           Alert.alert("Error", "Email o contraseña incorrectos");
         }
