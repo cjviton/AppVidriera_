@@ -1,18 +1,20 @@
 using ApiConexSql.Data;
 using Microsoft.EntityFrameworkCore;
-using ApiConexSql.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Configurar EF Core con SQL Server
+// Activa el uso de controladores tipo UsuariosController.cs
 builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
+// Agregar soporte para controladores y Swagger
+builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
 
+// Configurar Swagger en entorno de desarrollo
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
@@ -20,25 +22,10 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+app.UseAuthorization();
 
-// ENDPOINT: Registrar usuario
-app.MapPost("/register", async (Usuario user, AppDbContext db) =>
-{
-    db.Usuarios.Add(user);
-    await db.SaveChangesAsync();
-    return Results.Ok(user);
-});
+// Le dice a la app que registre todas las rutas [HttpGet], [HttpPost], etc.
+app.MapControllers();
 
-// ENDPOINT: Listar usuarios
-app.MapGet("/usuarios", async (AppDbContext db) =>
-{
-    return await db.Usuarios.ToListAsync();
-});
-
+//  Ejecutar aplicación
 app.Run();
-
-
-record WeatherForecast(DateOnly Date, int TemperatureC, string? Summary)
-{
-    public int TemperatureF => 32 + (int)(TemperatureC / 0.5556);
-}

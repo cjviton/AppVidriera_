@@ -6,22 +6,24 @@ export default function Login({ navigation }) {
   const [password, setPassword] = useState("");
 
   const handleLogin = () => {
-    fetch("http://10.0.2.2:5297/usuarios") // 👈 en emulador Android
-    // fetch("http://192.168.1.50:5297/usuarios") // 👈 si usas móvil físico en red local
+    fetch("http://10.0.2.2:5297/api/usuarios/login", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        email: email,
+        passwordHash: password
+      })
+    })
       .then(res => res.json())
       .then(data => {
-        const user = data.find(u => u.email === email && u.passwordHash === password);
-        if (user) {
-          Alert.alert("Bienvenido", `Hola ${user.nombre}`);
+        if (data.success) {
+          Alert.alert("Bienvenido", `Hola ${data.nombre}`);
+          // guardar nombre en AsyncStorage si quieres mostrarlo en Home
           navigation.replace("Home");
         } else {
           Alert.alert("Error", "Email o contraseña incorrectos");
         }
       })
-      .catch(err => {
-        console.error(err);
-        Alert.alert("Error", "No se pudo conectar al servidor");
-      });
   };
 
   return (
