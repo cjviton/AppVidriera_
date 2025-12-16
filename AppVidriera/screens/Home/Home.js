@@ -15,7 +15,7 @@ export default function Home({ navigation }) {
 
         <Text style={styles.title}>Vidriera Arandina</Text>
         <Text style={styles.subtitle}>Departamento de Mantenimiento</Text>
-        <Text style={styles.welcome}>👋 Hola, Carlos</Text>
+        <Text style={styles.welcome}>👋 Hola, Bienvenid@</Text>
 
         <View style={styles.cardsContainer}>
           <View style={styles.card}>
