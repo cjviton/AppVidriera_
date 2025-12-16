@@ -36,11 +36,11 @@ public class CalendarController : ControllerBase
     }
 
     // POST: /api/calendar/events
-    [HttpPost("events")]
-    public async Task<IActionResult> CreateEvent([FromBody] CalendarEventCreateDto dto)
+    [HttpPost("create")]
+    public async Task<IActionResult> Create(CalendarEventCreateDto dto)
     {
-        var created = await _calendar.CreateEventAsync(dto.Summary, dto.Description, dto.Start, dto.End, dto.TimeZone);
-        return Ok(new { id = created.Id, summary = created.Summary });
+        var result = await _calendar.CreateEventAsync(dto);
+        return Ok(result);
     }
 
     // DELETE: /api/calendar/events/{eventId}

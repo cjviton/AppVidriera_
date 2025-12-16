@@ -2,6 +2,7 @@ using Google.Apis.Auth.OAuth2;
 using Google.Apis.Calendar.v3;
 using Google.Apis.Calendar.v3.Data;
 using Google.Apis.Services;
+using ApiGoogleCalendar.Dtos;
 
 namespace ApiGoogleCalendar.Services;
 
@@ -41,22 +42,26 @@ public class GoogleCalendarService
         return events.Items ?? new List<Event>();
     }
 
-    public async Task<Event> CreateEventAsync(string summary, string? description, DateTime start, DateTime end, string timeZone)
+    public async Task<Event> CreateEventAsync(CalendarEventCreateDto dto)
     {
         var newEvent = new Event
         {
-            Summary = summary,
-            Description = description,
+            Summary = dto.Summary,
+            Description = dto.Description,
+
             Start = new EventDateTime
             {
-                DateTimeDateTimeOffset = new DateTimeOffset(start),
-                TimeZone = timeZone
+                DateTimeDateTimeOffset = new DateTimeOffset(dto.Start),
+                TimeZone = dto.TimeZone
             },
             End = new EventDateTime
             {
-                DateTimeDateTimeOffset = new DateTimeOffset(end),
-                TimeZone = timeZone
-            }
+                DateTimeDateTimeOffset = new DateTimeOffset(dto.End),
+                TimeZone = dto.TimeZone
+            },
+
+            // ✅ Color del evento (Google usa ColorId)
+            ColorId = dto.ColorId
         };
 
         var insertRequest = _calendarService.Events.Insert(newEvent, _calendarId);
