@@ -23,7 +23,18 @@ export default function Register({ navigation }) {
       return;
     }
 
-    fetch("http://10.0.2.2:5297/register", {
+    // 🔒 Validación de dominio corporativo
+    const dominioEmpresa = "@lavidriera.com";
+
+    if (!email.toLowerCase().endsWith(dominioEmpresa)) {
+      Alert.alert(
+        "Email no válido",
+        `El correo debe pertenecer al dominio ${dominioEmpresa}`
+      );
+      return;
+    }
+
+    fetch("http://10.0.2.2:5297/api/usuarios/register", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
