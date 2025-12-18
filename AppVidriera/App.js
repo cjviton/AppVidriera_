@@ -9,6 +9,7 @@ import Register from './screens/Register/Register';
 import TareasHoy from "./screens/TareasHoy/TareasHoy";
 import IncidenciasHoy from "./screens/IncidenciasHoy/IncidenciasHoy";
 import RevisionesSemana from "./screens/RevisionesSemana/RevisionesSemana";
+import GestionEventos from "./screens/GestionEventos/GestionEventos";
 
 const Stack = createStackNavigator();
 
@@ -23,6 +24,7 @@ export default function App() {
         <Stack.Screen name="TareasHoy" component={TareasHoy} />
         <Stack.Screen name="IncidenciasHoy" component={IncidenciasHoy} />
         <Stack.Screen name="RevisionesSemana" component={RevisionesSemana} />
+        <Stack.Screen name="GestionEventos" component={GestionEventos} />
       </Stack.Navigator>
     </NavigationContainer>
   );

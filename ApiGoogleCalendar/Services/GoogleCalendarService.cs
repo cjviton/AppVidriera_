@@ -60,7 +60,7 @@ public class GoogleCalendarService
                 TimeZone = dto.TimeZone
             },
 
-            // ✅ Color del evento (Google usa ColorId)
+            
             ColorId = dto.ColorId,
 
         };
@@ -74,4 +74,29 @@ public class GoogleCalendarService
         var deleteRequest = _calendarService.Events.Delete(_calendarId, eventId);
         await deleteRequest.ExecuteAsync();
     }
+
+    public async Task<Event> UpdateEventAsync(string eventId, CalendarEventCreateDto dto)
+    {
+        var ev = await _calendarService.Events.Get(_calendarId, eventId).ExecuteAsync();
+
+        ev.Summary = dto.Summary;
+        ev.Description = dto.Description;
+        ev.ColorId = dto.ColorId;
+
+        ev.Start = new EventDateTime
+        {
+            DateTimeDateTimeOffset = new DateTimeOffset(dto.Start),
+            TimeZone = dto.TimeZone
+        };
+
+        ev.End = new EventDateTime
+        {
+            DateTimeDateTimeOffset = new DateTimeOffset(dto.End),
+            TimeZone = dto.TimeZone
+        };
+
+        var request = _calendarService.Events.Update(ev, _calendarId, eventId);
+        return await request.ExecuteAsync();
+    }
+
 }

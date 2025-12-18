@@ -10,33 +10,44 @@ export default function TareasHoy({ navigation }) {
   }, []);
 
   const cargarTareasHoy = async () => {
-    const hoy = new Date();
+    try {
+      const hoy = new Date();
 
-    const desde = new Date(
-      hoy.getFullYear(),
-      hoy.getMonth(),
-      hoy.getDate(),
-      0, 0, 0
-    ).toISOString();
+      const desde = new Date(
+        hoy.getFullYear(),
+        hoy.getMonth(),
+        hoy.getDate(),
+        0, 0, 0
+      ).toISOString();
 
-    const hasta = new Date(
-      hoy.getFullYear(),
-      hoy.getMonth(),
-      hoy.getDate(),
-      23, 59, 59
-    ).toISOString();
+      const hasta = new Date(
+        hoy.getFullYear(),
+        hoy.getMonth(),
+        hoy.getDate(),
+        23, 59, 59
+      ).toISOString();
 
-    const res = await fetch(
-      `http://10.0.2.2:5088/api/calendar/events?from=${desde}&to=${hasta}`
-    );
+      const res = await fetch(
+        `http://10.0.2.2:5088/api/calendar/events?from=${desde}&to=${hasta}`
+      );
 
-    const data = await res.json();
-    setTareas(data.filter(e => e.colorId === "2"));
+      const data = await res.json();
+
+      // 🟢 SOLO tareas activas (verde = colorId "2")
+      const tareasVerdes = data.filter(
+        e => String(e.colorId) === "2"
+      );
+
+      setTareas(tareasVerdes);
+    } catch (error) {
+      console.error("Error cargando tareas de hoy:", error);
+      setTareas([]);
+    }
   };
 
   return (
     <View style={styles.container}>
-
+      
       {/* BOTÓN ATRÁS */}
       <TouchableOpacity
         style={styles.backButton}
@@ -54,10 +65,17 @@ export default function TareasHoy({ navigation }) {
           <View style={styles.item}>
             <Text style={styles.summary}>{item.summary}</Text>
             <Text style={styles.time}>
-              {item.start?.dateTime?.substring(11,16)}
+              {item.start?.dateTime
+                ? item.start.dateTime.substring(11, 16)
+                : ""}
             </Text>
           </View>
         )}
+        ListEmptyComponent={
+          <Text style={styles.emptyText}>
+            No hay tareas activas hoy
+          </Text>
+        }
       />
     </View>
   );

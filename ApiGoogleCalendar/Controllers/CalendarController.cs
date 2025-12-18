@@ -28,7 +28,7 @@ public class CalendarController : ControllerBase
             id = e.Id,
             summary = e.Summary,
             description = e.Description,
-            colorId = e.ColorId,   
+            colorId = e.ColorId,
             start = e.Start?.DateTimeDateTimeOffset?.ToString("o")
             ?? e.Start?.Date,
             end = e.End?.DateTimeDateTimeOffset?.ToString("o")
@@ -36,6 +36,8 @@ public class CalendarController : ControllerBase
         }));
 
     }
+
+
 
     // POST: /api/calendar/events
     [HttpPost("create")]
@@ -53,5 +55,15 @@ public class CalendarController : ControllerBase
         return Ok(new { success = true });
     }
 
-    
+    [HttpPut("events/{eventId}")]
+    public async Task<IActionResult> UpdateEvent(
+    string eventId,
+    CalendarEventCreateDto dto)
+    {
+        var updated = await _calendar.UpdateEventAsync(eventId, dto);
+        return Ok(updated);
+    }
+
+
+
 }
