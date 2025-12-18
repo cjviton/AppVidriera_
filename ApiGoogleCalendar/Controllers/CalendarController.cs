@@ -28,11 +28,13 @@ public class CalendarController : ControllerBase
             id = e.Id,
             summary = e.Summary,
             description = e.Description,
+            colorId = e.ColorId,   
             start = e.Start?.DateTimeDateTimeOffset?.ToString("o")
-                    ?? e.Start?.Date,
+            ?? e.Start?.Date,
             end = e.End?.DateTimeDateTimeOffset?.ToString("o")
-                  ?? e.End?.Date
+          ?? e.End?.Date
         }));
+
     }
 
     // POST: /api/calendar/events
@@ -50,4 +52,6 @@ public class CalendarController : ControllerBase
         await _calendar.DeleteEventAsync(eventId);
         return Ok(new { success = true });
     }
+
+    
 }

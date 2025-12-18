@@ -61,7 +61,8 @@ public class GoogleCalendarService
             },
 
             // ✅ Color del evento (Google usa ColorId)
-            ColorId = dto.ColorId
+            ColorId = dto.ColorId,
+
         };
 
         var insertRequest = _calendarService.Events.Insert(newEvent, _calendarId);

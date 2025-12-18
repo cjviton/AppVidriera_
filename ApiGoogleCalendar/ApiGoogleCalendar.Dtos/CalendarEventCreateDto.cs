@@ -16,4 +16,5 @@ public class CalendarEventCreateDto
     public string TimeZone { get; set; } = "Europe/Madrid";
 
     public string ColorId { get; set; } = "9"; // azul por defecto
+
 }
